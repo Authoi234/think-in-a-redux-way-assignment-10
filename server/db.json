@@ -48,6 +48,11 @@
       "role": "student",
       "name": "Arif",
       "id": 7
+    },
+    {
+      "email": "jawadkhan.authoi@gmail.com",
+      "password": "$2a$10$GpfXGXPfB/BqViYqduoUpulMm/tuMvF/iI.ByFXaPpVGitQjV8P0W",
+      "id": 8
     }
   ],
   "videos": [
