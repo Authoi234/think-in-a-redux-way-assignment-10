@@ -8,6 +8,7 @@ import Registration from './pages/studentPortal/Registration';
 import "./style/output.css";
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
+import Course from './pages/studentPortal/Course';
 
 function App() {
   const router = createBrowserRouter([
@@ -31,7 +32,7 @@ function App() {
       children: [
         {
           path: "/StudentPortal/course",
-          element: <PrivateRoute>asdf</PrivateRoute>
+          element: <PrivateRoute><Course></Course></PrivateRoute>
         }
       ]
     }
@@ -40,6 +41,7 @@ function App() {
   return (
     <div className="App">
      <RouterProvider router={router} />
+
     </div>
   );
 }

@@ -10,6 +10,7 @@ const StudentPortalLayout = () => {
     const { user } = useSelector(state => state.auth);
     const {email} = user || {};
     const authChecked = useAuthCheck();
+    
     return (
         <div>
             <nav className="shadow-md">

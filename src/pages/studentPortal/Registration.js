@@ -17,6 +17,7 @@ const Registration = () => {
 
     useEffect(() => {
         if (responseError?.data) {
+            
             setError(responseError.data);
         }
         if (data?.accessToken && data?.user) {
