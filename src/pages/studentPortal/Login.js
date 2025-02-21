@@ -18,7 +18,7 @@ const Login = () => {
             setError(responseError.data);
         }
         if (data?.accessToken && data?.user) {
-            navigate("/course");
+            navigate("/StudentPortal/course");
         }
     }, [data, responseError, navigate]);
 
@@ -27,7 +27,11 @@ const Login = () => {
         e.preventDefault();
         setError("");
 
-        login({email, password});
+        if (email === 'admin@learnwithsumit.com') {
+            setError("Admin Login, /admin/login");
+        } else {
+            login({ email, password });
+        }
     };
 
     return (
@@ -43,13 +47,13 @@ const Login = () => {
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
-                            <label for="email-address" className="sr-only">Email address</label>
-                            <input id="email-address" name="email" type="email" autocomplete="email" required
+                            <label htmlFor="email-address" className="sr-only">Email address</label>
+                            <input id="email-address" name="email" type="email" autoComplete="email" required
                                 className="login-input rounded-t-md" placeholder="Email address" value={email} onChange={e => setEmail(e.target.value)} />
                         </div>
                         <div>
-                            <label for="password" className="sr-only">Password</label>
-                            <input id="password" name="password" type="password" autocomplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} className="login-input rounded-b-md" placeholder="Password" />
+                            <label htmlFor="password" className="sr-only">Password</label>
+                            <input id="password" name="password" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} className="login-input rounded-b-md" placeholder="Password" />
                         </div>
                     </div>
 
@@ -67,7 +71,7 @@ const Login = () => {
                             Sign in
                         </button>
                     </div>
-                    {error !== "" && <div style={{ color: "white", fontWeight: "bold", fontSize: "15px", padding: "8px ", margin: "10px 0", borderRadius: "5px", backgroundColor: "#fc4242" }}>There was an error Occured</div>}
+                    {error !== "" && <div style={{ color: "white", fontWeight: "bold", fontSize: "15px", padding: "8px ", margin: "10px 0", borderRadius: "5px", backgroundColor: "#fc4242" }}>{error}</div>}
                 </form>
             </div>
         </section>

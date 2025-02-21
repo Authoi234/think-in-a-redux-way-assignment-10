@@ -51,7 +51,9 @@
     },
     {
       "email": "jawadkhan.authoi@gmail.com",
-      "password": "$2a$10$GpfXGXPfB/BqViYqduoUpulMm/tuMvF/iI.ByFXaPpVGitQjV8P0W",
+      "password": "$2a$10$E9IhC0v8IXV47rVy9hKuP.zQ.zmq0eQt4EwK.wBUtbVyvlpHWtPLO",
+      "name": "Authoi",
+      "role": "student",
       "id": 8
     }
   ],

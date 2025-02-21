@@ -20,7 +20,7 @@ const Registration = () => {
             setError(responseError.data);
         }
         if (data?.accessToken && data?.user) {
-            navigate("/course");
+            navigate("/StudentPortal/course");
         }
     }, [data, responseError, navigate]);
 
@@ -28,10 +28,16 @@ const Registration = () => {
         e.preventDefault();
         setError("");
         if (password !== confirmPassword) {
-            setError("Password Didnt Match")
+            setError("Password Didnt Match");
         }
         else {
-            register({name, email, password, role: "student"});
+            register({
+                name,
+                email,
+                password,
+                role: "student"
+
+            });
         }
     };
 
@@ -48,24 +54,24 @@ const Registration = () => {
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
-                            <label for="name" className="sr-only">Name</label>
-                            <input id="name" name="name" type="name" autocomplete="name" required
+                            <label htmlFor="name" className="sr-only">Name</label>
+                            <input id="name" name="name" type="name" autoComplete="name" required
                                 className="login-input rounded-t-md" placeholder="Student Name" value={name} onChange={e => setName(e.target.value)} />
                         </div>
                         <div>
-                            <label for="email-address" className="sr-only">Email address</label>
-                            <input id="email-address" name="email" type="email" autocomplete="email" required value={email} onChange={e => setEmail(e.target.value)}
+                            <label htmlFor="email-address" className="sr-only">Email address</label>
+                            <input id="email-address" name="email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)}
                                 className="login-input " placeholder="Email address" />
                         </div>
                         <div>
-                            <label for="password" className="sr-only">Password</label>
-                            <input id="password" name="password" type="password" autocomplete="current-password" required value={password} onChange={e => setPassword(e.target.value)}
+                            <label htmlFor="password" className="sr-only">Password</label>
+                            <input id="password" name="password" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)}
                                 className="login-input" placeholder="Password" />
                         </div>
                         <div>
-                            <label for="confirm-password" className="sr-only">Confirm Password</label>
+                            <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
                             <input id="confirm-password" name="confirm-password" type="password"
-                                autocomplete="confirm-password" required className="login-input rounded-b-md" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
+                                autoComplete="confirm-password" required className="login-input rounded-b-md" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
                                 placeholder="Confirm Password" />
                         </div>
                     </div>

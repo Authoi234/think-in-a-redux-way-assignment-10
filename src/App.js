@@ -6,6 +6,8 @@ import StudentIdentifyLayout from './layout/student/StudentIdentifyLayout';
 import Login from './pages/studentPortal/Login';
 import Registration from './pages/studentPortal/Registration';
 import "./style/output.css";
+import PublicRoute from './Routes/PublicRoute';
+import PrivateRoute from './Routes/PrivateRoute';
 
 function App() {
   const router = createBrowserRouter([
@@ -15,11 +17,21 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Login></Login>
+          element: <PublicRoute><Login></Login></PublicRoute>
         },
         {
           path: "/registration",
-          element: <Registration></Registration>
+          element: <PublicRoute><Registration></Registration></PublicRoute>
+        }
+      ]
+    },
+    {
+      path: "/StudentPortal",
+      element: <StudentPortalLayout></StudentPortalLayout>,
+      children: [
+        {
+          path: "/StudentPortal/course",
+          element: <PrivateRoute>asdf</PrivateRoute>
         }
       ]
     }
