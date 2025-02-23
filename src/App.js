@@ -9,6 +9,8 @@ import "./style/output.css";
 import PublicRoute from './Routes/PublicRoute';
 import PrivateRoute from './Routes/PrivateRoute';
 import Course from './pages/studentPortal/Course';
+import { userLoggedIn } from './features/auth/authSlice';
+import Quizzes from './pages/studentPortal/Quizzes';
 
 function App() {
   const router = createBrowserRouter([
@@ -33,14 +35,18 @@ function App() {
         {
           path: "/StudentPortal/course",
           element: <PrivateRoute><Course></Course></PrivateRoute>
-        }
+        },
+        {
+          path: "/StudentPortal/quizzes/:videoId",
+          element: <PrivateRoute><Quizzes></Quizzes></PrivateRoute>
+        },
       ]
     }
   ])
 
   return (
-    <div className="App">
-     <RouterProvider router={router} />
+    <div className="">
+     <RouterProvider key={userLoggedIn} router={router} />
 
     </div>
   );

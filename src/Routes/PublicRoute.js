@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 import useCheckUser from "../hooks/useCheckUser";
+import { useSelector } from "react-redux";
 
 const PublicRoute = ({ children }) => {
-    const isLoggedIn = useCheckUser();
+    const isLoggedIn = useSelector((state) => !!state.auth.accessToken);
 
-    return !isLoggedIn ? children : <Navigate to="/StudentPortal/course" />;
-};
+    return isLoggedIn ? <Navigate to="/StudentPortal/course" replace /> : children;
+}
 
 export default PublicRoute;

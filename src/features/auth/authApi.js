@@ -20,7 +20,8 @@ export const authApi = apiSlice.injectEndpoints({
                             user: result.data.user,
                         })
                     );
-
+            
+                    // Update Redux state (this will trigger re-renders)
                     dispatch(
                         userLoggedIn({
                             accessToken: result.data.accessToken,
@@ -50,7 +51,8 @@ export const authApi = apiSlice.injectEndpoints({
                             user: result.data.user,
                         })
                     );
-
+            
+                    // Update Redux state (this will trigger re-renders)
                     dispatch(
                         userLoggedIn({
                             accessToken: result.data.accessToken,
