@@ -11,6 +11,7 @@ import PrivateRoute from './Routes/PrivateRoute';
 import Course from './pages/studentPortal/Course';
 import { userLoggedIn } from './features/auth/authSlice';
 import Quizzes from './pages/studentPortal/Quizzes';
+import Leaderboard from './pages/studentPortal/Leaderboard';
 
 function App() {
   const router = createBrowserRouter([
@@ -39,6 +40,10 @@ function App() {
         {
           path: "/StudentPortal/quizzes/:videoId",
           element: <PrivateRoute><Quizzes></Quizzes></PrivateRoute>
+        },
+        {
+          path: "/StudentPortal/leaderboard",
+          element: <PrivateRoute><Leaderboard></Leaderboard></PrivateRoute>
         },
       ]
     }

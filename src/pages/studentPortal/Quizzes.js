@@ -1,13 +1,23 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useGetQuizzesQuery } from '../../features/quizzes/quizzesApi';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAddQuizMarkMutation, useGetQuizzesQuery } from '../../features/quizzes/quizzesApi';
 import { useSelector } from 'react-redux';
+import { useGetVideoQuery } from '../../features/videos/videosApi';
 
 const Quizzes = () => {
     const { videoId } = useParams();
     const { data: quizzes, isLoading, isError } = useGetQuizzesQuery();
     const currentQuizzes = quizzes?.filter(quiz => Number(String(quiz.video_id)) === Number(videoId));
+    const {data: video, isLoading:isVideoLoading, isError: isVideoError} = useGetVideoQuery(Number(videoId));
     const { user } = useSelector(state => state.auth);
+    const [addQuizMark, {data:addQuizMarkData, isLoading:isAddLoading, isSuccess}] = useAddQuizMarkMutation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isSuccess === true) {
+            navigate("/StudentPortal/leaderboard");
+        }
+    }, [isSuccess, navigate]);
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevents page reload
@@ -59,6 +69,7 @@ const Quizzes = () => {
         });
 
         const resultSummary = {
+            video_title:video?.title,
             student_name: user?.name,
             student_id: user?.id,
             video_id: Number(videoId),
@@ -68,6 +79,8 @@ const Quizzes = () => {
             totalMark,
             mark
         };
+
+        addQuizMark(resultSummary);
 
         console.log(resultSummary)
 

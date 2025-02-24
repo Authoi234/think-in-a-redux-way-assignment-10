@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import learningPortalImg from "../../assets/image/learningportal.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { userLoggedOut } from '../../features/auth/authSlice';
@@ -17,7 +17,7 @@ const StudentPortalLayout = () => {
                 <div className="max-w-7xl px-5 lg:px-0 mx-auto flex justify-between py-3">
                     <img className="h-10" src={learningPortalImg} alt='' />
                     <div className="flex items-center gap-3">
-                        <a href="./Leaderboard.html" className="font-bold">Leaderboard</a>
+                        <Link href="/StudentPortal/leaderboard" className="font-bold">Leaderboard</Link>
                         {!authChecked ? "checking..." : <h2>{email}</h2>}
                         <button
                             className="flex gap-2 border border-cyan items-center px-4 py-1 rounded-full text-sm transition-all hover:bg-cyan " onClick={() => {dispatch(userLoggedOut());localStorage.clear();}}>
