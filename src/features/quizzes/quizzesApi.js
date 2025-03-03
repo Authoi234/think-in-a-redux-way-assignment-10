@@ -20,6 +20,10 @@ export const quizzesApi = apiSlice.injectEndpoints({
             query: ({ studentId, videoId }) => `/quizMark?student_id=${studentId}&video_id=${videoId}`,
             keepUnusedDataFor: 1500,
         }),
+        getTotalQuizMark: builder.query({
+            query: (studentId) => `/quizMark?student_id=${studentId}`,
+            keepUnusedDataFor: 1500,
+        }),
         addQuizMark: builder.mutation({
             query: (data) => ({
                 url: '/quizMark',
@@ -34,4 +38,4 @@ export const quizzesApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useAddQuizMarkMutation } = quizzesApi;
+export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useGetTotalQuizMarkQuery, useAddQuizMarkMutation } = quizzesApi;

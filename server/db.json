@@ -215,6 +215,18 @@
       "mark": 50,
       "repo_link": "https://github.com/Learn-with-Sumit/assignment-1",
       "status": "published"
+    },
+    {
+      "student_id": 4,
+      "student_name": "Mohammad Salahuddin",
+      "assignment_id": 1,
+      "title": "Assignment 1 - Implement Debounce Function",
+      "createdAt": "2025-03-03T20:49:09.000Z",
+      "totalMark": 100,
+      "mark": 0,
+      "repo_link": "https://github.com/learnwithsumit/assignment-of-salahuddin",
+      "status": "pending",
+      "id": 3
     }
   ],
   "quizMark": [
@@ -229,6 +241,18 @@
       "totalWrong": 1,
       "totalMark": 10,
       "mark": 5
+    },
+    {
+      "video_title": "Debounce Function in JavaScript - JavaScript Job Interview question",
+      "student_name": "Mohammad Salahuddin",
+      "student_id": 4,
+      "video_id": 1,
+      "totalQuiz": 2,
+      "totalCorrect": 2,
+      "totalWrong": 0,
+      "totalMark": 10,
+      "mark": 10,
+      "id": 2
     }
   ]
 }

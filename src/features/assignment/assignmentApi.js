@@ -34,8 +34,12 @@ export const assignmentApi = apiSlice.injectEndpoints({
                 "Assignments",
                 "AssignmentsMarks",
             ],
-        })
+        }),
+        getTotalAssignmentMark: builder.query({
+            query: (studentId) => `/assignmentMark?student_id=${studentId}`,
+            keepUnusedDataFor: 1500,
+        }),
     }),
 });
 
-export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation } = assignmentApi;
+export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery } = assignmentApi;
