@@ -30,6 +30,17 @@ export const assignmentApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: assginmentMark } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetAssignmentsMarks", undefined, (draft) => {
+                            draft.push(assginmentMark);
+                        })
+                    );
+                } catch (err) {
+                }
+            },
             invalidatesTags: (result, error, arg) => [
                 "Assignments",
                 "AssignmentsMarks",

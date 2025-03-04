@@ -11,7 +11,41 @@ export const videosApi = apiSlice.injectEndpoints({
         }),
         getVideo: builder.query({
             query: (videoId) => `/videos/${videoId}`,
-            providesTags: (result, error, arg) => [{type: "Video", id: arg}],
+            providesTags: (result, error, arg) => [{ type: "Video", id: arg }],
+        }),
+        editVideo: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/videos/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: updatedVideo } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getVideos",
+                            undefined,
+                            (draft) => {
+                                if (!draft) return;
+                                const draftVideo = draft.find((v) => v?.id == updatedVideo?.id);
+                                if (draftVideo) {
+                                    Object.assign(draftVideo, updatedVideo);
+                                };
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Videos",
+                {
+                    type: "Video",
+                    id: arg?.id
+                }
+            ],
         })
     }),
 });

@@ -12,6 +12,13 @@ import Course from './pages/studentPortal/Course';
 import { userLoggedIn } from './features/auth/authSlice';
 import Quizzes from './pages/studentPortal/Quizzes';
 import Leaderboard from './pages/studentPortal/Leaderboard';
+import AdminLogin from './pages/adminDashboard/AdminLogin';
+import AdminRoute from './Routes/AdminRoute';
+import AdminDashboardLayout from './layout/admin/AdminDashboardLayout';
+import AdminPublicRoute from './Routes/AdminPublicRoute';
+import Dashboard from './pages/adminDashboard/Dashboard';
+import Videos from './pages/adminDashboard/Videos';
+import UpdateVideo from './pages/adminDashboard/UpdateVideo';
 
 function App() {
   const router = createBrowserRouter([
@@ -46,12 +53,40 @@ function App() {
           element: <PrivateRoute><Leaderboard></Leaderboard></PrivateRoute>
         },
       ]
-    }
+    },
+    {
+      path: "/admin",
+      element: <StudentIdentifyLayout></StudentIdentifyLayout>,
+      children: [
+        {
+          path: "/admin/login",
+          element: <AdminPublicRoute><AdminLogin></AdminLogin></AdminPublicRoute>
+        },
+      ]
+    },
+    {
+      path: "/admin",
+      element: <AdminDashboardLayout></AdminDashboardLayout>,
+      children: [
+        {
+          path: "/admin/dashboard",
+          element: <AdminRoute><Dashboard></Dashboard></AdminRoute>
+        },
+        {
+          path: "/admin/videos",
+          element: <AdminRoute><Videos></Videos></AdminRoute>
+        },
+        {
+          path: "/admin/editVideo/:videoId",
+          element: <AdminRoute><UpdateVideo></UpdateVideo></AdminRoute>
+        },
+      ]
+    },
   ])
 
   return (
     <div className="">
-     <RouterProvider key={userLoggedIn} router={router} />
+      <RouterProvider key={userLoggedIn} router={router} />
 
     </div>
   );

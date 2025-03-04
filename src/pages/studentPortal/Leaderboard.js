@@ -13,7 +13,7 @@ const Leaderboard = () => {
     const {data: assignmentMarks} = useGetAssignmentsMarksQuery();
     const { data: studentAssignmentMarkData } = useGetTotalAssignmentMarkQuery(user?.id);
     const { data: allUsers, isLoading: isUsersLoading } = useGetUsersQuery();
-    const studentUsers = allUsers.filter(user => user.role === "student");
+    const studentUsers = allUsers?.filter(user => user.role === "student");
 
     useEffect(() => {
         const sum = studentQuizMarkData?.reduce((acc, obj) => Number(acc) + Number(obj.mark), 0);
@@ -26,8 +26,8 @@ const Leaderboard = () => {
     }, [studentAssignmentMarkData]);
 
     const usersWithMarks = studentUsers?.map(user => {
-        const quizMarksUser = quizMarks.filter(quizMark => quizMark?.student_id === user?.id)
-        const assignmentMarksUser = assignmentMarks.filter(assignmentMark => assignmentMark?.student_id === user?.id);
+        const quizMarksUser = quizMarks?.filter(quizMark => quizMark?.student_id === user?.id)
+        const assignmentMarksUser = assignmentMarks?.filter(assignmentMark => assignmentMark?.student_id === user?.id);
         const userQuizMarks = quizMarksUser?.reduce((acc, obj) => acc + Number(obj.mark), 0) || 0;
         const userAssignmentMarks = assignmentMarksUser?.reduce((acc, obj) => acc + Number(obj.mark), 0) || 0;
         return {
@@ -38,18 +38,18 @@ const Leaderboard = () => {
         };
     }) || [];
 
-    const sortedUsers = [...usersWithMarks].sort((a, b) => b.totalMarks - a.totalMarks);
+    const sortedUsers = [...usersWithMarks]?.sort((a, b) => b.totalMarks - a.totalMarks);
 
     const rankedUsers = [];
     let currentRank = 1;
-    sortedUsers.forEach((user, index) => {
+    sortedUsers?.forEach((user, index) => {
         if (index > 0 && user.totalMarks < sortedUsers[index - 1].totalMarks) {
             currentRank = index + 1;
         }
         rankedUsers.push({ ...user, rank: currentRank });
     });
 
-    const currentUserRank = rankedUsers.find(u => u.id === user?.id)?.rank || "-";
+    const currentUserRank = rankedUsers?.find(u => u.id === user?.id)?.rank || "-";
 
 
     return (

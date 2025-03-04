@@ -32,7 +32,7 @@ const Quizzes = () => {
 
         const forms = document.querySelectorAll('.quizOptions');
 
-        forms.forEach((form, index) => {
+        forms?.forEach((form, index) => {
             const quiz = currentQuizzes[index];
 
             const selectedOptions = Array.from(form.querySelectorAll('input[type="checkbox"]:checked'))?.map(input => {
