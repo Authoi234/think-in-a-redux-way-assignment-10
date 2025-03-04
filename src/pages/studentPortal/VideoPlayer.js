@@ -87,8 +87,8 @@ const VideoPlayer = ({ video, quizOfVideo, quizMark, assignmentsOfVideo, assigne
     console.log(assignemntsMark)
     // quiz Content
     if (quizOfVideo?.length === 0) quizContent = <p style={{ borderColor: "red", borderWidth: '1px' }} className="px-3 font-bold py-1 border rounded-full text-sm  text-red-500"> কুইজ নেই </p>;
-    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark).length === 0)) quizContent = <Link to={`/StudentPortal/quizzes/${video?.id}`} className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"> কুইজে অংশগ্রহণ করুন </Link>;
-    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark).length > 0)) quizContent = <p style={{ borderColor: "yellow", borderWidth: '1px', color: "yellow" }} className="px-3 font-semibold py-1 border rounded-full text-sm"> কুইজ দিয়েছেন </p>
+    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark)?.length === 0)) quizContent = <Link to={`/StudentPortal/quizzes/${video?.id}`} className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"> কুইজে অংশগ্রহণ করুন </Link>;
+    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark)?.length > 0)) quizContent = <p style={{ borderColor: "yellow", borderWidth: '1px' }} className="px-3  font-semibold py-1 border text-yellow-500 rounded-full text-sm"> কুইজ দিয়েছেন </p>
 
     // Assignment content
     if (assignmentsOfVideo?.length === 0) assignmentContent = <p style={{ borderColor: "red", borderWidth: '1px' }} className="px-3 font-bold py-1 border rounded-full text-sm  text-red-500"> এসাইনমেন্ট নেই </p>

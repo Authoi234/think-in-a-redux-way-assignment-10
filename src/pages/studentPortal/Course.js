@@ -20,7 +20,7 @@ const Course = () => {
     const { data: assignments, isLoading: isAssignmentsLoading, isError: isAssignmentsError } = useGetAssignmentsQuery();
 
     const quizOfVideo = quizzes?.filter(quiz => quiz.video_id === videoId);
-    const assignmentsOfVideo = (assignments || []).filter(assignment => assignment.video_id === videoId);
+    const assignmentsOfVideo = (assignments || [])?.filter(assignment => assignment?.video_id === videoId);
 
     const assignmentId = assignmentsOfVideo?.[0]?.id;
     const { data: assignemntsMark, refetch:refetchOfAssginmentMark } = useGetAssignmentMarkQuery(

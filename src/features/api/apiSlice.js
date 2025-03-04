@@ -19,7 +19,7 @@ export const apiSlice = createApi({
         let result = await baseQuery(args, api, extraOptions);
         if(result?.error?.status === 401){
             api.dispatch(userLoggedOut());
-            localStorage.clear();
+            localStorage?.clear();
         }
         return result;
     },

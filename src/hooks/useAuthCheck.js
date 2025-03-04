@@ -14,8 +14,8 @@ const useAuthCheck = () => {
             if (auth?.accessToken && auth?.user) {
                 dispatch(
                     userLoggedIn({
-                        accessToken: auth.accessToken,
-                        user: auth.user,
+                        accessToken: auth?.accessToken,
+                        user: auth?.user,
                     })
                 );
             }

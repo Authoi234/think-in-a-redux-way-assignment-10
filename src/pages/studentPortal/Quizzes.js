@@ -26,7 +26,7 @@ const Quizzes = () => {
         const formData = [];
         let totalCorrect = 0;
         let totalWrong = 0;
-        let totalQuiz = currentQuizzes.length;
+        let totalQuiz = currentQuizzes?.length;
         let totalMark = totalQuiz * 5; 
         let mark = 0;
 
@@ -35,9 +35,9 @@ const Quizzes = () => {
         forms.forEach((form, index) => {
             const quiz = currentQuizzes[index];
 
-            const selectedOptions = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(input => {
-                const optionId = input.id.replace("option", "").split("_q")[0]; // Extract option ID
-                const selectedOption = quiz.options.find(opt => String(opt.id) === optionId);
+            const selectedOptions = Array.from(form.querySelectorAll('input[type="checkbox"]:checked'))?.map(input => {
+                const optionId = input?.id?.replace("option", "")?.split("_q")[0]; // Extract option ID
+                const selectedOption = quiz.options?.find(opt => String(opt.id) === optionId);
 
                 return {
                     questionId: quiz.id,
@@ -47,10 +47,10 @@ const Quizzes = () => {
             });
 
             const allCorrect = selectedOptions.every(opt => opt.rightAnswer);
-            const hasWrongAnswer = selectedOptions.some(opt => !opt.rightAnswer);
+            const hasWrongAnswer = selectedOptions?.some(opt => !opt.rightAnswer);
 
             let quizMark = 0;
-            if (allCorrect && selectedOptions.length > 0) {
+            if (allCorrect && selectedOptions?.length > 0) {
                 quizMark = 5; 
                 totalCorrect++;
             }
@@ -115,7 +115,7 @@ const Quizzes = () => {
                     className="px-4 py-2 rounded-full bg-cyan block ml-auto mt-8 hover:opacity-90 active:opacity-100 active:scale-95 "
                     type='Submit'
                     onClick={handleSubmit}
-                    disabled={quizMarkData.length > 0 ? true : false}
+                    disabled={quizMarkData?.length > 0 ? true : false}
                 >
                     Submit
                 </button>

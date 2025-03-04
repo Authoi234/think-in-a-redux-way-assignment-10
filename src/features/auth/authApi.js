@@ -13,19 +13,19 @@ export const authApi = apiSlice.injectEndpoints({
                 try {
                     const result = await queryFulfilled;
 
-                    localStorage.setItem(
+                    localStorage?.setItem(
                         "auth",
                         JSON.stringify({
-                            accessToken: result.data.accessToken,
-                            user: result.data.user,
+                            accessToken: result?.data?.accessToken,
+                            user: result?.data?.user,
                         })
                     );
             
                     // Update Redux state (this will trigger re-renders)
                     dispatch(
                         userLoggedIn({
-                            accessToken: result.data.accessToken,
-                            user: result.data.user,
+                            accessToken: result?.data?.accessToken,
+                            user: result?.data?.user,
                         })
                     );
                 } catch (err) {
@@ -47,16 +47,16 @@ export const authApi = apiSlice.injectEndpoints({
                     localStorage.setItem(
                         "auth",
                         JSON.stringify({
-                            accessToken: result.data.accessToken,
-                            user: result.data.user,
+                            accessToken: result?.data?.accessToken,
+                            user: result?.data?.user,
                         })
                     );
             
                     // Update Redux state (this will trigger re-renders)
                     dispatch(
                         userLoggedIn({
-                            accessToken: result.data.accessToken,
-                            user: result.data.user,
+                            accessToken: result?.data?.accessToken,
+                            user: result?.data?.user,
                         })
                     );
                 } catch (err) {
