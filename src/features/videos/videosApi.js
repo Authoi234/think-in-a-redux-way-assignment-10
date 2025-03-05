@@ -50,4 +50,4 @@ export const videosApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetVideosQuery, useGetVideoQuery } = videosApi;
+export const { useGetVideosQuery, useGetVideoQuery, useEditVideoMutation } = videosApi;
