@@ -47,6 +47,33 @@ export const videosApi = apiSlice.injectEndpoints({
                 }
             ],
         }),
+        addVideo: builder.mutation({
+            query: (data) => ({
+                url: "/videos",
+                method: "POST",
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: newVideo } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getVideos",
+                            undefined,
+                            (draft) => {
+                                if (!draft) return;
+                                draft.push(newVideo);
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Videos",
+            ],
+        }),
         deleteVideo: builder.mutation({
             query: (id) => ({
                 url: `/videos/${id}`,
@@ -72,4 +99,4 @@ export const videosApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetVideosQuery, useGetVideoQuery, useEditVideoMutation, useDeleteVideoMutation } = videosApi;
+export const { useGetVideosQuery, useGetVideoQuery, useEditVideoMutation, useDeleteVideoMutation, useAddVideoMutation } = videosApi;

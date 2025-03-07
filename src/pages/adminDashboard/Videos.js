@@ -1,28 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import { useDeleteVideoMutation, useGetVideosQuery } from '../../features/videos/videosApi';
+import { useAddVideoMutation, useDeleteVideoMutation, useGetVideosQuery } from '../../features/videos/videosApi';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { FaVideo, FaXmark } from 'react-icons/fa6';
+import { MdError } from 'react-icons/md';
 
 const Videos = () => {
-    const { data: videos } = useGetVideosQuery();
+    const { data: videos, refetch } = useGetVideosQuery();
     const [seeMore, setSeeMore] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [URL, setURL] = useState("");
+    const [views, setViews] = useState("");
+    const [duration, setDuration] = useState("");
     const navigate = useNavigate();
-    const [deleteVideo, {isSuccess: isDeleteSucess}] = useDeleteVideoMutation();
+    const [deleteVideo, { isSuccess: isDeleteSucess }] = useDeleteVideoMutation();
+    const [addVideo, { isSuccess: isAdded, isLoading, isError }] = useAddVideoMutation();
     const dispatch = useDispatch();
 
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     useEffect(() => {
-        if(isDeleteSucess) {
+        if (isDeleteSucess) {
             toast("Video deleted Successfully");
         }
-    }, [isDeleteSucess])
+    }, [isDeleteSucess]);
+
+    useEffect(() => {
+        if (isAdded) {
+            toast("Video Was Added Successfully");
+            refetch();
+            closeModal();
+        }
+    }, [isAdded, refetch]);
+
+    const modalOverlayStyle = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    };
+
+    const modalStyle = {
+        padding: "20px",
+        borderRadius: "8px",
+        textAlign: "center",
+        color: "white",
+        backgroundColor: "#0A1121",
+        width: "90%",
+        maxWidth: "800px",
+        maxHeight: "90vh",
+        overflowY: "auto",
+    };
+
+    const handleAddVideo = (e) => {
+        e.preventDefault();
+        const newVideo = {
+            title,
+            description,
+            url: URL,
+            views,
+            duration,
+            createdAt: new Date().toISOString()
+        };
+        addVideo(newVideo);
+    };
 
     return (
         <section class="py-6 bg-primary">
             <div class="mx-auto max-w-full px-5 lg:px-20">
                 <div class="px-3 py-20 bg-opacity-10">
                     <div class="w-full flex">
-                        <button class="btn ml-auto">Add Video</button>
+                        <button class="btn ml-auto" onClick={openModal}>Add Video</button>
                     </div>
                     <div class="overflow-x-auto mt-4">
                         <table class="divide-y-1 text-base divide-gray-600 w-full">
@@ -70,6 +127,86 @@ const Videos = () => {
                         </table>
                     </div>
                 </div>
+                {isModalOpen && <div style={modalOverlayStyle}>
+                    <div style={modalStyle}>
+                        <div style={{ display: 'flex', justifyContent: 'right', alignItems: "center" }}>
+                            <button style={{ fontSize: '25px', padding: "3px", borderRadius: "50%", backgroundColor: "rgba(0,0,0,0.1)" }} onClick={closeModal}><FaXmark></FaXmark></button>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: "center" }}>
+                            <p style={{ display: 'flex', alignItems: "center", fontSize: '17px', padding: "3px", borderRadius: "50%", backgroundColor: "rgba(0,0,0,0.1)" }} onClick={closeModal}><FaVideo style={{ marginRight: "5px" }}></FaVideo><span> Add Video For Students</span></p>
+                        </div>
+                        <div style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+                            <img style={{ width: "250px" }} src={"https://visme.co/blog/wp-content/uploads/2021/09/How-to-Make-a-Video-thumbnail.jpg"} alt="" />
+                        </div>
+                        <div>
+                            <h3 className='text-2xl px-5 py-3 font-semifold'>
+                                Add New Video
+                            </h3>
+                            <p style={{ fontSize: "20px" }}>
+                            </p>
+                            <hr className="w-full" style={{ borderColor: "cyan", borderWidth: "1px", margin: "4px 0" }} />
+                            <form onSubmit={handleAddVideo} style={{ textAlign: "start" }}>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Title:</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        placeholder='Video Title'
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Description:</label>
+                                    <input
+                                        type="text"
+                                        name="description"
+                                        placeholder='Video Description'
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>URL:</label>
+                                    <input
+                                        type="text"
+                                        name="url"
+                                        placeholder='Video URL'
+                                        onChange={(e) => setURL(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Views:</label>
+                                    <input
+                                        type="text"
+                                        name="views"
+                                        placeholder='Video views '
+                                        onChange={(e) => setViews(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Duration:</label>
+                                    <input
+                                        type="text"
+                                        name="duration"
+                                        placeholder='Video duration'
+                                        onChange={(e) => setDuration(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <button disabled={isLoading} type="submit" className='btn' style={{ width: "100%", borderRadius: "5px", height: "40px" }}>
+                                    Submit
+                                </button>
+                                {isError && <div className="w-full " style={{ padding: "10px", display: 'flex', justifyContent: "center", alignItems: "center", borderRadius: "5px", margin: "10px 0", backgroundColor: "rgba(250, 30, 5, 0.2)" }}>
+                                    <MdError style={{ color: "red" }} />
+                                    <span style={{ color: "rgba(243, 243, 243, 0.74)", fontSize: "15px" }}>An error occured</span>
+                                </div>}
+                            </form>
+                        </div>
+                    </div>
+                </div>}
             </div>
         </section>
     );
