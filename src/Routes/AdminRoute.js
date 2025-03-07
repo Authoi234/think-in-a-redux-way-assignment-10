@@ -9,6 +9,9 @@ const AdminRoute = ({ children }) => {
     if (isLoggedIn && user?.role === "admin") {
         return children
     }
+    else if (isLoggedIn && user?.role === "student") {
+        return  <Navigate to="/" />
+    }
     else{
         return <Navigate to="/admin/login" />
     }
