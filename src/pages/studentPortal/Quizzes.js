@@ -46,7 +46,7 @@ const Quizzes = () => {
                 };
             });
 
-            const allCorrect = selectedOptions.every(opt => opt.rightAnswer);
+            const allCorrect = selectedOptions?.every(opt => opt.rightAnswer);
             const hasWrongAnswer = selectedOptions?.some(opt => !opt.rightAnswer);
 
             let quizMark = 0;
@@ -88,8 +88,8 @@ const Quizzes = () => {
     };
 
     return (
-        <section className="py-6 bg-primary">
-            <div className="mx-auto max-w-7xl px-5 lg:px-0">
+        <section className="py-6 bg-[#080e1b]">
+            <div className="mx-auto max-w-7xl px-5 lg:px-0 text-white">
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold">Quizzes for "Debounce Function in JavaScript - JavaScript Job Interview question"
                     </h1>
@@ -112,7 +112,7 @@ const Quizzes = () => {
                 </div>
 
                 <button
-                    className="px-4 py-2 rounded-full bg-cyan block ml-auto mt-8 hover:opacity-90 active:opacity-100 active:scale-95 "
+                    className="px-4 py-2 rounded-full bg-[#34b5fd] block ml-auto mt-8 hover:opacity-90 active:opacity-100 active:scale-95 "
                     type='Submit'
                     onClick={handleSubmit}
                     disabled={quizMarkData?.length > 0 ? true : false}

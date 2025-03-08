@@ -8,22 +8,10 @@ const Leaderboard = () => {
     const [totalQuizMarks, setTotalQuizMarks] = useState(0);
     const [totalAsignmentMarks, setTotalAsignmentMarks] = useState(0);
     const { user } = useSelector((state) => state.auth) || {};
-    const { data: studentQuizMarkData } = useGetTotalQuizMarkQuery(user?.id);
     const {data: quizMarks} = useGetQuizzesMarksQuery();
     const {data: assignmentMarks} = useGetAssignmentsMarksQuery();
-    const { data: studentAssignmentMarkData } = useGetTotalAssignmentMarkQuery(user?.id);
     const { data: allUsers, isLoading: isUsersLoading } = useGetUsersQuery();
     const studentUsers = allUsers?.filter(user => user.role === "student");
-
-    useEffect(() => {
-        const sum = studentQuizMarkData?.reduce((acc, obj) => Number(acc) + Number(obj.mark), 0);
-        setTotalQuizMarks(sum);
-    }, [studentQuizMarkData]);
-
-    useEffect(() => {
-        const sum = studentAssignmentMarkData?.reduce((acc, obj) => Number(acc) + Number(obj.mark), 0);
-        setTotalAsignmentMarks(sum)
-    }, [studentAssignmentMarkData]);
 
     const usersWithMarks = studentUsers?.map(user => {
         const quizMarksUser = quizMarks?.filter(quizMark => quizMark?.student_id === user?.id)
@@ -51,10 +39,11 @@ const Leaderboard = () => {
 
     const currentUserRank = rankedUsers?.find(u => u.id === user?.id)?.rank || "-";
 
+    const currentUser = rankedUsers?.find(u => u?.id === user?.id) || {};
 
     return (
-        <section className="py-6 bg-primary">
-            <div className="mx-auto max-w-7xl px-5 lg:px-0">
+        <section className="py-6 bg-[#080e1b]">
+            <div className="mx-auto max-w-7xl px-5 lg:px-0 text-white">
                 <div>
                     <h3 className="text-lg font-bold">Your Position in Leaderboard</h3>
                     <table className="text-base w-full border border-slate-600/50 rounded-md my-4">
@@ -68,15 +57,15 @@ const Leaderboard = () => {
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr className="border-2 border-cyan">
+                        {!isUsersLoading ? <tbody>
+                            <tr className="border-2 text-[#34b5fd]">
                                 <td className="table-td text-center font-bold">{currentUserRank}</td>
                                 <td className="table-td text-center font-bold">{user?.name}</td>
-                                <td className="table-td text-center font-bold">{totalQuizMarks}</td>
-                                <td className="table-td text-center font-bold">{totalAsignmentMarks}</td>
-                                <td className="table-td text-center font-bold">{totalAsignmentMarks + totalQuizMarks}</td>
+                                <td className="table-td text-center font-bold">{currentUser?.totalQuizMarks || 0}</td>
+                                <td className="table-td text-center font-bold">{currentUser?.totalAssignmentMarks || 0}</td>
+                                <td className="table-td text-center font-bold">{currentUser?.totalMarks || 0}</td>
                             </tr>
-                        </tbody>
+                        </tbody> : <div>Loading...</div>}
                     </table>
                 </div>
 

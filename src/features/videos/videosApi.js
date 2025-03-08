@@ -28,7 +28,7 @@ export const videosApi = apiSlice.injectEndpoints({
                             undefined,
                             (draft) => {
                                 if (!draft) return;
-                                const draftVideo = draft.find((v) => v?.id == updatedVideo?.id);
+                                const draftVideo = draft?.find((v) => v?.id == updatedVideo?.id);
                                 if (draftVideo) {
                                     Object.assign(draftVideo, updatedVideo);
                                 };
@@ -82,9 +82,9 @@ export const videosApi = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 const pathResult = dispatch(
                     apiSlice.util.updateQueryData("getVideos", undefined, (draft) => {
-                        const index = draft.findIndex((item) => item.id === arg);
+                        const index = draft?.findIndex((item) => item.id === arg);
                         if (index !== -1) {
-                            draft.splice(index, 1);
+                            draft?.splice(index, 1);
                         }
                     })
                 );

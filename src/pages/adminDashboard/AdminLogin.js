@@ -35,8 +35,8 @@ const AdminLogin = () => {
     };
 
     return (
-        <section class="py-6 bg-primary h-screen grid place-items-center">
-            <div class="mx-auto max-w-md px-5 lg:px-0">
+        <section class="py-6 bg-[#080e1b] min-h-screen grid place-items-center">
+            <div class="mx-auto max-w-md px-5 lg:px-0 text-whtie" >
                 <div>
                     <img class="h-12 mx-auto" src={learningPortalImg} alt='' />
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-100">

@@ -87,16 +87,16 @@ const VideoPlayer = ({ video, quizOfVideo, quizMark, assignmentsOfVideo, assigne
     console.log(assignemntsMark)
     // quiz Content
     if (quizOfVideo?.length === 0) quizContent = <p style={{ borderColor: "red", borderWidth: '1px' }} className="px-3 font-bold py-1 border rounded-full text-sm  text-red-500"> কুইজ নেই </p>;
-    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark)?.length === 0)) quizContent = <Link to={`/StudentPortal/quizzes/${video?.id}`} className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"> কুইজে অংশগ্রহণ করুন </Link>;
+    else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark)?.length === 0)) quizContent = <Link to={`/StudentPortal/quizzes/${video?.id}`} className="px-3 font-bold py-1 border text-[#34b5fd] text-[#34b5fd] rounded-full text-sm hover:bg-[#34b5fd] hover:text-[#080e1b]"> কুইজে অংশগ্রহণ করুন </Link>;
     else if ((quizOfVideo?.length > 0) && (Object.keys(quizMark)?.length > 0)) quizContent = <p style={{ borderColor: "yellow", borderWidth: '1px' }} className="px-3  font-semibold py-1 border text-yellow-500 rounded-full text-sm"> কুইজ দিয়েছেন </p>
 
     // Assignment content
     if (assignmentsOfVideo?.length === 0) assignmentContent = <p style={{ borderColor: "red", borderWidth: '1px' }} className="px-3 font-bold py-1 border rounded-full text-sm  text-red-500"> এসাইনমেন্ট নেই </p>
-    else if ((assignmentsOfVideo?.length > 0) && assignemntsMark?.length === 0) assignmentContent = <button onClick={openModal} className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"> এসাইনমেন্ট </button>
+    else if ((assignmentsOfVideo?.length > 0) && assignemntsMark?.length === 0) assignmentContent = <button onClick={openModal} className="px-3 font-bold py-1 border text-[#34b5fd] text-[#34b5fd] rounded-full text-sm hover:bg-[#34b5fd] hover:text-[#080e1b]"> এসাইনমেন্ট </button>
     else if ((assignmentsOfVideo?.length > 0) && ((assignemntsMark?.length > 0) || isAssignmentSubmitted)) assignmentContent = <button disabled style={{ borderColor: 'yellow' }} className="px-3 font-bold py-1 border text-yellow-500 rounded-full text-sm "> এসাইনমেন্ট দিয়েছেন </button>
 
     return (
-        <div className="col-span-full w-full space-y-8 lg:col-span-2">
+        <div className="col-span-full w-full space-y-8 lg:col-span-2 text-whtie">
             <iframe width="100%" className="aspect-video" src={video?.url}
                 title="Things I wish I knew as a Junior Web Developer - Sumit Saha - BASIS SoftExpo 2023"
                 frameborder="0"
@@ -153,7 +153,7 @@ const VideoPlayer = ({ video, quizOfVideo, quizMark, assignmentsOfVideo, assigne
                                         style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
                                     />
                                 </div>
-                                <button disabled={isAssignmentMarkLoading} type="submit" className='btn' style={{ width: "100%", borderRadius: "5px", height: "40px" }}>
+                                <button disabled={isAssignmentMarkLoading} type="submit" className='btn btn-info text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }}>
                                     Submit
                                 </button>
                                 <div className="w-full " style={{ padding: "10px", display: 'flex', justifyContent: "center", alignItems: "center", borderRadius: "5px", margin: "10px 0", backgroundColor: "rgba(250, 30, 5, 0.2)" }}>

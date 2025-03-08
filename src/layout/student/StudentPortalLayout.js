@@ -20,7 +20,7 @@ const StudentPortalLayout = () => {
                         <Link to="/StudentPortal/leaderboard" className="font-bold">Leaderboard</Link>
                         {!authChecked ? "checking..." : <h2>{name}</h2>}
                         <button
-                            className="flex gap-2 border border-cyan items-center px-4 py-1 rounded-full text-sm transition-all hover:bg-cyan " onClick={() => {dispatch(userLoggedOut());localStorage.clear();}}>
+                            className="flex gap-2 border text-[#34b5fd] items-center px-4 py-1 rounded-full text-sm transition-all hover:text-white hover:bg-[#34b5fd] " onClick={() => {dispatch(userLoggedOut());localStorage.clear();}}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                                 stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round"

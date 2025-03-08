@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
     return (
-        <section class="py-6 bg-primary">
+        <section class="py-6 bg-[#080e1b] min-h-screen text-black">
             <div class="mx-auto max-w-7xl px-5 lg:px-0">
                 <div class="px-3 md:lg:xl:px-40  py-20 bg-opacity-10">
                     <div class="grid grid-cols-1 md:grid-cols-2  gap-6 p-8">
@@ -28,14 +28,14 @@ const Dashboard = () => {
                             <p class="text-slate-200 mt-3">Assignment</p>
                         </a>
 
-                        <a href="" class="dashboard-item-card">
+                        <Link to="/admin/quizzes" class="dashboard-item-card">
                             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-8 h-8 text-indigo-500">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                             </svg>
                             <p class="text-slate-200 mt-3 ">Quizzes</p>
-                        </a>
+                        </Link>
 
                         <a href="" class="dashboard-item-card">
                             <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

@@ -116,17 +116,17 @@
         },
         {
           "id": "2",
-          "option": "A function that is called after a certain time interval",
+          "option": "A function that is called after a certain time intorval",
           "isCorrect": false
         },
         {
           "id": 3,
-          "option": "A function that is called after a certain time interval",
+          "option": "A function that is calIed after a certain time interval",
           "isCorrect": false
         },
         {
           "id": 4,
-          "option": "A function that is called after a certain time interval",
+          "option": "A funotion that is called after a certain time interval",
           "isCorrect": false
         }
       ]
@@ -184,6 +184,11 @@
           "id": 4,
           "option": "No Difference",
           "isCorrect": false
+        },
+        {
+          "id": 5,
+          "option": "A variable that has not been assigned a value is of type undefined.",
+          "isCorrect": true
         }
       ]
     }

@@ -75,11 +75,11 @@ const Videos = () => {
     };
 
     return (
-        <section class="py-6 bg-primary">
-            <div class="mx-auto max-w-full px-5 lg:px-20">
+        <section class="py-6 bg-[#080e1b] min-h-screen">
+            <div class="mx-auto max-w-full px-5 lg:px-20 text-white">
                 <div class="px-3 py-20 bg-opacity-10">
                     <div class="w-full flex">
-                        <button class="btn ml-auto" onClick={openModal}>Add Video</button>
+                        <button class="btn btn-info text-white ml-auto" onClick={openModal}>Add Video</button>
                     </div>
                     <div class="overflow-x-auto mt-4">
                         <table class="divide-y-1 text-base divide-gray-600 w-full">
@@ -196,7 +196,7 @@ const Videos = () => {
                                         style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
                                     />
                                 </div>
-                                <button disabled={isLoading} type="submit" className='btn' style={{ width: "100%", borderRadius: "5px", height: "40px" }}>
+                                <button disabled={isLoading} type="submit" className='btn btn-accent text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }}>
                                     Submit
                                 </button>
                                 {isError && <div className="w-full " style={{ padding: "10px", display: 'flex', justifyContent: "center", alignItems: "center", borderRadius: "5px", margin: "10px 0", backgroundColor: "rgba(250, 30, 5, 0.2)" }}>

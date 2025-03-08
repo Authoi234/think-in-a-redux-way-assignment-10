@@ -828,7 +828,7 @@ video {
   border-color: transparent;
 }
 
-.bg-cyan {
+.bg-[#34b5fd] {
   --tw-bg-opacity: 1;
   background-color: rgb(52 181 253 / var(--tw-bg-opacity));
 }
@@ -1379,7 +1379,7 @@ body {
   text-underline-offset: 4px;
 }
 
-.hover\:bg-cyan:hover {
+.hover\:bg-[#34b5fd]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(52 181 253 / var(--tw-bg-opacity));
 }

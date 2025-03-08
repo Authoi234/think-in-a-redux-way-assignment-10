@@ -20,6 +20,7 @@ import Dashboard from './pages/adminDashboard/Dashboard';
 import Videos from './pages/adminDashboard/Videos';
 import UpdateVideo from './pages/adminDashboard/UpdateVideo';
 import AdminQuizzes from './pages/adminDashboard/AdminQuizzes';
+import UpdateQuizzes from './pages/adminDashboard/UpdateQuizzes';
 
 function App() {
   const router = createBrowserRouter([
@@ -84,6 +85,10 @@ function App() {
         {
           path: "/admin/editVideo/:videoId",
           element: <AdminRoute><UpdateVideo></UpdateVideo></AdminRoute>
+        },
+        {
+          path: "/admin/editQuiz/:quizId",
+          element: <AdminRoute><UpdateQuizzes></UpdateQuizzes></AdminRoute>
         },
       ]
     },

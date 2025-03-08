@@ -36,9 +36,9 @@ const UpdateVideo = () => {
     }
 
     return (
-        <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }} className='min-h-screen'>
 
-            <div>
+            <div className='text-white'>
                 <div style={{ maxWidth: "600px", width: "100%" }} className="mx-auto px-5 lg:px-0">
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-100">
                         <img className="h-12 mx-auto" src={learningPortalImg} alt='' />
@@ -119,7 +119,7 @@ const UpdateVideo = () => {
                             onBlur={(e) => (e.target.style.border = "1px solid #ccc")}
                         />
                     </div>
-                    <button type="submit" style={{ width: "100%", padding: "15px 0", borderRadius: "41% 59% 26% 40% / 25% 13% 57% 44%", marginTop: "20px" ,fontSize: "20", color: "white", textAlign: "center", backgroundColor: "#007bff" }} >Submit</button>
+                    <button type="submit" style={{ width: "100%", padding: "15px 0", marginTop: "20px" ,fontSize: "20", color: "white", textAlign: "center", backgroundColor: "#007bff" }} className='btn rounded-md border-0'>Submit</button>
                 </form> 
             </div>
         </div>

@@ -16,6 +16,69 @@ export const quizzesApi = apiSlice.injectEndpoints({
                 "QuizzesMarks"
             ]
         }),
+        deleteQuiz: builder.mutation({
+            query: (id) => ({
+                url: `/quizzes/${id}`,
+                method: 'delete',
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                const pathResult = dispatch(
+                    apiSlice.util.updateQueryData("getQuizzes", undefined, (draft) => {
+                        const index = draft?.findIndex((item) => item.id === arg);
+                        if (index !== -1) {
+                            draft?.splice(index, 1);
+                        }
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    pathResult.undo();
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Quizzes",
+            ],
+        }),
+        getQuiz: builder.query({
+            query: (id) => `/quizzes/${id}`,
+            providesTags: (result, error, arg) => [{type: "Quiz", id: arg}]
+        }),
+        editQuiz: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/quizzes/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: updatedQuiz } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getQuizzes",
+                            undefined,
+                            (draft) => {
+                                if (!draft) return;
+                                const draftQuiz = draft?.find((item) => item?.id == updatedQuiz?.id);
+                                if (draftQuiz) {
+                                    Object.assign(draftQuiz, updatedQuiz);
+                                };
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Quizzes",
+                {
+                    type: "Quiz",
+                    id: arg?.id
+                }
+            ],
+        }),
         getQuizMark: builder.query({
             query: ({ studentId, videoId }) => `/quizMark?student_id=${studentId}&video_id=${videoId}`,
             keepUnusedDataFor: 1500,
@@ -49,4 +112,4 @@ export const quizzesApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useGetTotalQuizMarkQuery, useAddQuizMarkMutation } = quizzesApi;
+export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useGetTotalQuizMarkQuery, useAddQuizMarkMutation, useDeleteQuizMutation, useGetQuizQuery, useEditQuizMutation } = quizzesApi;
