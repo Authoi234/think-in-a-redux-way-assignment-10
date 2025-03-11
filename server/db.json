@@ -48,13 +48,6 @@
       "role": "student",
       "name": "Arif",
       "id": 7
-    },
-    {
-      "email": "jawadkhan.authoi@gmail.com",
-      "password": "$2a$10$E9IhC0v8IXV47rVy9hKuP.zQ.zmq0eQt4EwK.wBUtbVyvlpHWtPLO",
-      "name": "Authoi",
-      "role": "student",
-      "id": 8
     }
   ],
   "videos": [
@@ -191,6 +184,62 @@
           "isCorrect": true
         }
       ]
+    },
+    {
+      "video_title": "আমার ওপর হা*ম*লা করা হয়েছে। 🤣😂",
+      "options": [
+        {
+          "id": 1741721580384,
+          "option": "Authoi is Good Boy.",
+          "isCorrect": true
+        },
+        {
+          "id": 1741721590408,
+          "option": "Yes, I Do",
+          "isCorrect": false
+        },
+        {
+          "id": 1741721597896,
+          "option": "نعم أفعل",
+          "isCorrect": true
+        },
+        {
+          "id": 1741721612127,
+          "option": "Both II and III",
+          "isCorrect": false
+        },
+        {
+          "id": 1741721618048,
+          "option": "I dont",
+          "isCorrect": false
+        }
+      ],
+      "question": "Do you love quizzes",
+      "video_id": 3,
+      "id": 4
+    },
+    {
+      "video_title": "#2 JavaScript Tips and Tricks - JavaScript Job Interview Questions!!!",
+      "options": [
+        {
+          "id": 1741721909919,
+          "option": "asdfsdf",
+          "isCorrect": false
+        },
+        {
+          "id": 1741721916791,
+          "option": "yyyyyyeeeessssssss",
+          "isCorrect": true
+        },
+        {
+          "id": 1741721921615,
+          "option": "aaaaaaaaaaaaaaabbbbbbbbbbbccccccc",
+          "isCorrect": false
+        }
+      ],
+      "question": "Do you love quizzes",
+      "video_id": 2,
+      "id": 6
     }
   ],
   "assignmentMark": [
@@ -267,6 +316,30 @@
       "totalMark": 10,
       "mark": 10,
       "id": 2
+    },
+    {
+      "video_title": "আমার ওপর হা*ম*লা করা হয়েছে। 🤣😂",
+      "student_name": "Akash Ahmed",
+      "student_id": 3,
+      "video_id": 3,
+      "totalQuiz": 1,
+      "totalCorrect": 1,
+      "totalWrong": 0,
+      "totalMark": 5,
+      "mark": 5,
+      "id": 3
+    },
+    {
+      "video_title": "#2 JavaScript Tips and Tricks - JavaScript Job Interview Questions!!!",
+      "student_name": "Akash Ahmed",
+      "student_id": 3,
+      "video_id": 2,
+      "totalQuiz": 2,
+      "totalCorrect": 1,
+      "totalWrong": 1,
+      "totalMark": 10,
+      "mark": 5,
+      "id": 4
     }
   ]
 }

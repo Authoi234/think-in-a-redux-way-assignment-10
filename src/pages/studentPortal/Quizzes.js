@@ -88,7 +88,7 @@ const Quizzes = () => {
     };
 
     return (
-        <section className="py-6 bg-[#080e1b]">
+        <section className="py-6 bg-[#080e1b] ">
             <div className="mx-auto max-w-7xl px-5 lg:px-0 text-white">
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold">Quizzes for "Debounce Function in JavaScript - JavaScript Job Interview question"

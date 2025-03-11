@@ -43,7 +43,7 @@ export const quizzesApi = apiSlice.injectEndpoints({
         }),
         getQuiz: builder.query({
             query: (id) => `/quizzes/${id}`,
-            providesTags: (result, error, arg) => [{type: "Quiz", id: arg}]
+            providesTags: (result, error, arg) => [{ type: "Quiz", id: arg }]
         }),
         editQuiz: builder.mutation({
             query: ({ id, data }) => ({
@@ -79,6 +79,33 @@ export const quizzesApi = apiSlice.injectEndpoints({
                 }
             ],
         }),
+        addQuiz: builder.mutation({
+            query: (data) => ({
+                url: `/quizzes`,
+                method: 'POST',
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: newQuiz } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getQuizzes",
+                            undefined,
+                            (draft) => {
+                                if (!draft) return;
+                                draft.push(newQuiz);
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Quizzes"
+            ],
+        }),
         getQuizMark: builder.query({
             query: ({ studentId, videoId }) => `/quizMark?student_id=${studentId}&video_id=${videoId}`,
             keepUnusedDataFor: 1500,
@@ -112,4 +139,4 @@ export const quizzesApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useGetTotalQuizMarkQuery, useAddQuizMarkMutation, useDeleteQuizMutation, useGetQuizQuery, useEditQuizMutation } = quizzesApi;
+export const { useGetQuizzesQuery, useGetQuizMarkQuery, useGetQuizzesMarksQuery, useGetTotalQuizMarkQuery, useAddQuizMarkMutation, useDeleteQuizMutation, useGetQuizQuery, useEditQuizMutation, useAddQuizMutation } = quizzesApi;

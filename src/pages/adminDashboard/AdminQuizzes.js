@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDeleteQuizMutation, useGetQuizzesQuery } from '../../features/quizzes/quizzesApi';
+import { useAddQuizMutation, useDeleteQuizMutation, useGetQuizzesQuery } from '../../features/quizzes/quizzesApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { MdError } from 'react-icons/md';
+import { MdDelete, MdError } from 'react-icons/md';
 import { FaXmark } from 'react-icons/fa6';
 import { GoTasklist } from 'react-icons/go';
-import { useGetVideosQuery } from '../../features/videos/videosApi';
+import { useGetVideoQuery, useGetVideosQuery } from '../../features/videos/videosApi';
 
 const AdminQuizzes = () => {
     const { data: quizzes, refetch } = useGetQuizzesQuery();
@@ -18,6 +18,10 @@ const AdminQuizzes = () => {
     const [options, setOptions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: allVideos } = useGetVideosQuery();
+    const [isSkip, setIsSkip] = useState(true);
+    const [selectedVideoObjectData, setSelectedVideoObjectData] = useState(undefined);
+    const [addQuiz, {isSuccess: isQuizAddSuccess}] = useAddQuizMutation();
+    const { data: selectedVideoObject, isLoading: videoGetLoading } = useGetVideoQuery(Number(selectedVideo), { skip: isSkip, refetchOnMountOrArgChange: true });
 
     useEffect(() => {
         if (isDeleteSucess) {
@@ -25,11 +29,31 @@ const AdminQuizzes = () => {
         }
     }, [isDeleteSucess]);
 
+    useEffect(() => {
+        if (isQuizAddSuccess) {
+            refetch()
+            setIsModalOpen(false);
+            toast("Quiz added Successfully");
+        }
+    }, [isQuizAddSuccess, refetch]);
+
+    useEffect(() => {
+        if (selectedVideo) {
+            setIsSkip(false);
+        }
+    }, [selectedVideo]);
+
+    useEffect(() => {
+        if (selectedVideoObject) {
+            setSelectedVideoObjectData(selectedVideoObject);
+        }
+    }, [selectedVideoObject]);
+
+    const generateId = () => Date.now();
+
     const addOption = () => {
         if (newOption.trim() === "") return;
-
-        const newId = options.length + 1;
-        setOptions([...options, { id: newId, option: newOption, isCorrect: false }]);
+        setOptions([...options, { id: generateId(), option: newOption, isCorrect: false }]);
         setNewOption("");
     };
 
@@ -39,6 +63,10 @@ const AdminQuizzes = () => {
                 opt.id === id ? { ...opt, isCorrect: !opt.isCorrect } : opt
             )
         );
+    };
+
+    const handleDeleteOption = (id) => {
+        setOptions(options.filter(opt => opt?.id !== id));
     };
 
     const openModal = () => setIsModalOpen(true);
@@ -74,42 +102,50 @@ const AdminQuizzes = () => {
         overflowY: "auto",
     };
 
-    const handleAddVideo = (e) => {
+    const handleAddVideo = async (e) => {
         e.preventDefault();
-        // const newVideo = {
-        //     title,
-        //     description,
-        //     url: URL,
-        //     views,
-        //     duration,
-        //     createdAt: new Date().toISOString()
-        // };
-        // addVideo(newVideo);
-        console.log(options, question, selectedVideo)
+
+        if (videoGetLoading) {
+            console.log("Video data is still loading...");
+            return; 
+        }
+
+        if (!selectedVideoObjectData) {
+            console.log("Video data not loaded yet!");
+            return;
+        }
+       const { title } =selectedVideoObjectData;
+        const newQuiz = {
+            video_title:title,
+            options: options,
+            question: question,
+            video_id: Number(selectedVideo)
+        };
+        addQuiz(newQuiz);
     };
 
     return (
-        <section class=" py-6 bg-[#080e1b] min-h-screen">
-            <div class="mx-auto max-w-full px-5 lg:px-20 text-white">
-                <div class="px-3 py-20 bg-opacity-10">
-                    <div class="w-full flex">
-                        <button class="btn btn-info text-white ml-auto" onClick={openModal}>Add Quiz</button>
+        <section className=" py-6 bg-[#080e1b] min-h-screen">
+            <div className="mx-auto max-w-full px-5 lg:px-20 text-white">
+                <div className="px-3 py-20 bg-opacity-10">
+                    <div className="w-full flex">
+                        <button className="btn btn-info text-white ml-auto" onClick={openModal}>Add Quiz</button>
                     </div>
-                    <div class="overflow-x-auto mt-4">
-                        <table class="divide-y-1 text-base divide-gray-600 w-full">
+                    <div className="overflow-x-auto mt-4">
+                        <table className="divide-y-1 text-base divide-gray-600 w-full">
                             <thead>
                                 <tr>
-                                    <th class="table-th">Question</th>
-                                    <th class="table-th">Video</th>
-                                    <th class="table-th justify-center">Action</th>
+                                    <th className="table-th">Question</th>
+                                    <th className="table-th">Video</th>
+                                    <th className="table-th justify-center">Action</th>
                                 </tr>
                             </thead>
 
-                            <tbody class="divide-y divide-slate-600/50">
+                            <tbody className="divide-y divide-slate-600/50">
                                 {quizzes?.map(quiz => (
                                     <tr>
-                                        <td class="table-td">Quiz {quiz?.id} - {quiz.question}</td>
-                                        <td class="table-td"> {!seeMore ? (
+                                        <td className="table-td">Quiz {quiz?.id} - {quiz.question}</td>
+                                        <td className="table-td"> {!seeMore ? (
                                             <>
                                                 {quiz?.video_title?.slice(0, 30)}{".... "}
                                                 <span onClick={() => setSeeMore(!seeMore)} style={{ color: "white", cursor: "pointer" }}>
@@ -124,14 +160,14 @@ const AdminQuizzes = () => {
                                                 </span>
                                             </>
                                         )}</td>
-                                        <td class="table-td flex gap-x-2 justify-center">
-                                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onClick={() => deleteQuiz(quiz?.id)}
-                                                class="w-6 h-6 hover:text-red-500 cursor-pointer transition-all">
+                                        <td className="table-td flex gap-x-2 justify-center">
+                                            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" onClick={() => deleteQuiz(quiz?.id)}
+                                                className="w-6 h-6 hover:text-red-500 cursor-pointer transition-all">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                             </svg>
-                                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onClick={() => navigate(`/admin/editQuiz/${quiz?.id}`)}
-                                                class="w-6 h-6 hover:text-blue-500 cursor-pointer transition-all">
+                                            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" onClick={() => navigate(`/admin/editQuiz/${quiz?.id}`)}
+                                                className="w-6 h-6 hover:text-blue-500 cursor-pointer transition-all">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                             </svg>
@@ -192,18 +228,23 @@ const AdminQuizzes = () => {
                                             <p className="text-gray-400">No options added yet.</p>
                                         ) : (
                                             options.map((opt) => (
-                                                <label key={opt.id} className="flex items-center gap-2 p-2 bg-gray-700 rounded mb-2">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={opt.isCorrect}
-                                                        onChange={() => toggleCorrectAnswer(opt.id)}
-                                                        className="w-5 h-5 checkbox checkbox-md checkbox-accent text-white"
-                                                        style={{backgroundColor: "rgba(186, 233, 245, 0.5)"}}
-                                                    />
-                                                    <span className={opt.isCorrect ? "text-green-400 font-bold" : ""}>
-                                                        {opt.option}
-                                                    </span>
-                                                </label>
+                                                <div key={opt.id} className="flex items-center justify-between gap-2 p-2 bg-gray-700 rounded mb-2">
+                                                    <div className='flex justify-center items-center '>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={opt.isCorrect}
+                                                            onChange={() => toggleCorrectAnswer(opt.id)}
+                                                            className="w-5 h-5 checkbox checkbox-md checkbox-accent text-white mr-2"
+                                                            style={{ backgroundColor: "rgba(186, 233, 245, 0.5)" }}
+                                                        />
+                                                        <span className={`break-words break-all  ${opt.isCorrect ? "text-green-400 font-bold" : ""}`}>
+                                                            {opt.option}
+                                                        </span>
+                                                    </div>
+                                                    <button className='cursor-pointer' onClick={() => handleDeleteOption(opt?.id)} type='button'>
+                                                        <MdDelete className='text-red-600'></MdDelete>
+                                                    </button>
+                                                </div>
                                             ))
                                         )}
                                     </div>
@@ -225,7 +266,7 @@ const AdminQuizzes = () => {
                                     </div>
                                 </div>
 
-                                <input type="submit" className='btn text-lg btn-accent text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }} value={"Submit"} />
+                                <input type="submit" disabled={videoGetLoading || !selectedVideoObject} className='disabled:bg-sky-500 btn text-lg btn-accent text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }} value={videoGetLoading ? 'Loading...' : 'Submit'} />
                                 {/* {isError && <div className="w-full " style={{ padding: "10px", display: 'flex', justifyContent: "center", alignItems: "center", borderRadius: "5px", margin: "10px 0", backgroundColor: "rgba(250, 30, 5, 0.2)" }}>
                                     <MdError style={{ color: "red" }} />
                                     <span style={{ color: "rgba(243, 243, 243, 0.74)", fontSize: "15px" }}>An error occured</span>
