@@ -84,7 +84,7 @@ const UpdateAssignment = () => {
                             Total Mark
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             required
                             value={totalMark}
                             placeholder="Enter Total Mark"

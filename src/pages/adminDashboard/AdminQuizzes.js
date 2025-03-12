@@ -102,7 +102,7 @@ const AdminQuizzes = () => {
         overflowY: "auto",
     };
 
-    const handleAddVideo = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (videoGetLoading) {
@@ -197,7 +197,7 @@ const AdminQuizzes = () => {
                             <p style={{ fontSize: "20px" }}>
                             </p>
                             <hr className="w-full" style={{ borderColor: "cyan", borderWidth: "1px", margin: "4px 0" }} />
-                            <form onSubmit={handleAddVideo} style={{ textAlign: "start" }}>
+                            <form onSubmit={handleSubmit} style={{ textAlign: "start" }}>
                                 <div style={{ marginBottom: "10px" }}>
                                     <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Question:</label>
                                     <input
@@ -267,10 +267,6 @@ const AdminQuizzes = () => {
                                 </div>
 
                                 <input type="submit" disabled={videoGetLoading || !selectedVideoObject} className='disabled:bg-sky-500 btn text-lg btn-accent text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }} value={videoGetLoading ? 'Loading...' : 'Submit'} />
-                                {/* {isError && <div className="w-full " style={{ padding: "10px", display: 'flex', justifyContent: "center", alignItems: "center", borderRadius: "5px", margin: "10px 0", backgroundColor: "rgba(250, 30, 5, 0.2)" }}>
-                                    <MdError style={{ color: "red" }} />
-                                    <span style={{ color: "rgba(243, 243, 243, 0.74)", fontSize: "15px" }}>An error occured</span>
-                                </div>} */}
                             </form>
                         </div>
                     </div>

@@ -72,6 +72,33 @@ export const assignmentApi = apiSlice.injectEndpoints({
                 }
             ],
         }),
+        addAssignment: builder.mutation({
+            query: (data) => ({
+                url: "/assignments",
+                method: "POST",
+                body: data,
+            }),
+            async onQueryStarted(arg, {queryFulfilled, dispatch}) {
+                try {
+                    const {data} = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getAssignments",
+                            undefined,
+                            (draft) => {
+                                if(!draft) return;
+                                draft.push(data)
+                            }
+                        )
+                    )
+                } catch (err) {
+                    
+                }
+            },
+            invalidatesTags: [
+                "Assignments"
+            ]
+        }),
         GetAssignmentsMarks: builder.query({
             query: () => "/assignmentMark",
             keepUnusedDataFor: 1500,
@@ -112,4 +139,4 @@ export const assignmentApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery, useDeleteAssignmentMutation, useEditAssignmentMutation } = assignmentApi;
+export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery, useDeleteAssignmentMutation, useEditAssignmentMutation, useAddAssignmentMutation } = assignmentApi;

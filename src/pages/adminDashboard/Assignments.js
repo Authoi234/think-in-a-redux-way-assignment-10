@@ -1,12 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDeleteAssignmentMutation, useGetAssignmentsQuery } from '../../features/assignment/assignmentApi';
+import React, { useEffect, useState } from 'react';
+import { useAddAssignmentMutation, useDeleteAssignmentMutation, useGetAssignmentsQuery } from '../../features/assignment/assignmentApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useGetVideoQuery, useGetVideosQuery } from '../../features/videos/videosApi';
+import { FaXmark } from 'react-icons/fa6';
+import { GoTasklist } from 'react-icons/go';
 
 const Assignments = () => {
     const { data: assignments } = useGetAssignmentsQuery();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteAssignment, { isSuccess: isDeleteSucess }] = useDeleteAssignmentMutation();
     const navigate = useNavigate();
+    const { data: allVideos } = useGetVideosQuery();
+    const [selectedVideo, setSelectedVideo] = useState("");
+    const [isSkip, setIsSkip] = useState(true);
+    const [title, setTitle] = useState("");
+    const [totalMark, setTotalMark] = useState(0);
+    const [selectedVideoObjectData, setSelectedVideoObjectData] = useState(undefined);
+    const { data: selectedVideoObject, isLoading: videoGetLoading } = useGetVideoQuery(Number(selectedVideo), { skip: isSkip, refetchOnMountOrArgChange: true });
+    const [addAssignment, { isSuccess: isAddAssignmentSuccess }] = useAddAssignmentMutation();
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     useEffect(() => {
         if (isDeleteSucess) {
@@ -14,12 +29,77 @@ const Assignments = () => {
         }
     }, [isDeleteSucess]);
 
+    useEffect(() => {
+        if (isAddAssignmentSuccess) {
+            toast("Assignment Added Successfully");
+            closeModal()
+        }
+    }, [isAddAssignmentSuccess]);
+
+    useEffect(() => {
+        if (selectedVideo) {
+            setIsSkip(false);
+        }
+    }, [selectedVideo]);
+
+    useEffect(() => {
+        if (selectedVideoObject) {
+            setSelectedVideoObjectData(selectedVideoObject);
+        }
+    }, [selectedVideoObject]);
+
+    const modalOverlayStyle = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    };
+
+    const modalStyle = {
+        padding: "20px",
+        borderRadius: "8px",
+        textAlign: "center",
+        color: "white",
+        backgroundColor: "#0A1121",
+        width: "90%",
+        maxWidth: "800px",
+        maxHeight: "90vh",
+        overflowY: "auto",
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (videoGetLoading) {
+            console.log("Video data is still loading...");
+            return;
+        }
+
+        if (!selectedVideoObjectData) {
+            console.log("Video data not loaded yet!");
+            return;
+        }
+
+        addAssignment({
+            title,
+            video_id: Number(selectedVideo),
+            video_title: selectedVideoObjectData?.title,
+            totalMark
+        });
+
+    };
+
     return (
         <section class="py-6 bg-[#080e1b]">
             <div class="mx-auto max-w-full px-5 lg:px-20">
                 <div class="px-3 py-20 bg-opacity-10">
                     <div class="w-full flex">
-                        <button class="btn btn-info text-white ml-auto">Add Assignment</button>
+                        <button class="btn btn-info text-white ml-auto" onClick={openModal}>Add Assignment</button>
                     </div>
                     <div class="overflow-x-auto mt-4">
                         <table class="divide-y-1 text-base divide-gray-600 w-full">
@@ -59,6 +139,65 @@ const Assignments = () => {
                         </table>
                     </div>
                 </div>
+                {isModalOpen && <div style={modalOverlayStyle}>
+                    <div style={modalStyle}>
+                        <div style={{ display: 'flex', justifyContent: 'right', alignItems: "center" }}>
+                            <button style={{ fontSize: '25px', padding: "3px", borderRadius: "50%", backgroundColor: "rgba(0,0,0,0.1)" }} onClick={closeModal}><FaXmark></FaXmark></button>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: "center" }}>
+                            <p style={{ display: 'flex', alignItems: "center", fontSize: '17px', padding: "3px", borderRadius: "50%", backgroundColor: "rgba(0,0,0,0.1)" }} onClick={closeModal}><GoTasklist style={{ marginRight: "5px" }}></GoTasklist><span> Add Assignment as Students Exams</span></p>
+                        </div>
+                        <div style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+                            <img style={{ width: "250px" }} src={"https://static.vecteezy.com/system/resources/previews/002/958/141/non_2x/exam-and-quiz-vector.jpg"} alt="" />
+                        </div>
+                        <div>
+                            <h3 className='text-2xl px-5 py-3 font-semifold'>
+                                Add New Assignment
+                            </h3>
+                            <p style={{ fontSize: "20px" }}>
+                            </p>
+                            <hr className="w-full" style={{ borderColor: "cyan", borderWidth: "1px", margin: "4px 0" }} />
+                            <form onSubmit={handleSubmit} style={{ textAlign: "start" }}>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Title:</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        required
+                                        placeholder='Assignment Title'
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Total Mark:</label>
+                                    <input
+                                        type="number"
+                                        name="totalMark"
+                                        required
+                                        placeholder="Assignment's Total Mark"
+                                        value={totalMark}
+                                        onChange={(e) => setTotalMark(e.target.value)}
+                                        style={{ width: "100%", padding: "8px", border: "1px solid rgb(45, 45, 45)", backgroundColor: "rgb(52, 62, 65)", borderRadius: "4px" }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ display: "block", fontWeight: "bold", color: "rgba(243, 243, 243, 0.74)", marginBottom: "4px" }}>Choose Video:</label>
+                                    <select value={selectedVideo} onChange={(e) => setSelectedVideo(Number(e?.target?.value))} required className="select select-accent w-full bg-[#4a4a4a] text-white">
+                                        <option value={""} defaultChecked disabled={true} >Select Video</option>
+                                        {
+                                            allVideos?.map((video) => {
+                                                return <option value={video?.id}>{video?.title}</option>
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                                <input type="submit" className='disabled:bg-sky-500 btn text-lg btn-accent text-white' style={{ width: "100%", borderRadius: "5px", height: "40px" }} value={videoGetLoading ? 'Loading...' : 'Submit'} />
+                            </form>
+                        </div>
+                    </div>
+                </div>}
             </div>
         </section>
     );
