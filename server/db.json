@@ -89,7 +89,7 @@
     },
     {
       "id": 2,
-      "title": "Assignment 2 - Implement Best Practices",
+      "title": "Assignment 2 - Implement Best Practices.",
       "video_id": 2,
       "video_title": "#2 JavaScript Tips and Tricks - JavaScript Job Interview Questions",
       "totalMark": 100
@@ -122,7 +122,9 @@
           "option": "A funotion that is called after a certain time interval",
           "isCorrect": false
         }
-      ]
+      ],
+      "title": "Assignment 1 - Implement Debounce Function",
+      "totalMark": 100
     },
     {
       "id": 2,

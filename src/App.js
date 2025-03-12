@@ -21,6 +21,8 @@ import Videos from './pages/adminDashboard/Videos';
 import UpdateVideo from './pages/adminDashboard/UpdateVideo';
 import AdminQuizzes from './pages/adminDashboard/AdminQuizzes';
 import UpdateQuizzes from './pages/adminDashboard/UpdateQuizzes';
+import Assignments from './pages/adminDashboard/Assignments';
+import UpdateAssignment from './pages/adminDashboard/UpdateAssignment';
 
 function App() {
   const router = createBrowserRouter([
@@ -89,6 +91,14 @@ function App() {
         {
           path: "/admin/editQuiz/:quizId",
           element: <AdminRoute><UpdateQuizzes></UpdateQuizzes></AdminRoute>
+        },
+        {
+          path: "/admin/assignments",
+          element: <AdminRoute><Assignments></Assignments></AdminRoute>
+        },
+        {
+          path: "/admin/editAssignment/:assignmentId",
+          element: <AdminRoute><UpdateAssignment></UpdateAssignment></AdminRoute>
         },
       ]
     },

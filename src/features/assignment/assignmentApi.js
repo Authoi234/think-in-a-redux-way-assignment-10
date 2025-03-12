@@ -4,14 +4,73 @@ export const assignmentApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAssignments: builder.query({
             query: () => '/assignments',
-            keepUnusedDataFor: 1500,
+            keepUnusedDataFor: 500,
             providesTags: [
                 "Assignments"
             ]
         }),
         getAssignment: builder.query({
             query: (assignmentId) => `/assignments/${assignmentId}`,
-            keepUnusedDataFor: 1500
+            keepUnusedDataFor: 1500,
+            providesTags: (result, error, arg) => [{ type: "Assignment", id: arg }]
+        }),
+        deleteAssignment: builder.mutation({
+            query: (id) => ({
+                url: `/assignments/${id}`,
+                method: 'delete',
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                const pathResult = dispatch(
+                    apiSlice.util.updateQueryData("getAssignments", undefined, (draft) => {
+                        const index = draft?.findIndex((item) => item.id === arg);
+                        if (index !== -1) {
+                            draft?.splice(index, 1);
+                        }
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    pathResult.undo();
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Assignments",
+            ],
+        }),
+        editAssignment: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/assignments/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: updatedAssignment } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "getAssignments",
+                            undefined,
+                            (draft) => {
+                                const draftAssignment = draft?.find((item) => Number(item.id) == Number(updatedAssignment.id));
+                                if (draftAssignment) {
+                                    Object.assign(draftAssignment, updatedAssignment);
+                                }
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "Assignments",
+                {
+                    type: "Assignment",
+                    id: arg?.id
+                }
+            ],
         }),
         GetAssignmentsMarks: builder.query({
             query: () => "/assignmentMark",
@@ -53,4 +112,4 @@ export const assignmentApi = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery } = assignmentApi;
+export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery, useDeleteAssignmentMutation, useEditAssignmentMutation } = assignmentApi;
