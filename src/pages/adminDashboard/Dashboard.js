@@ -37,7 +37,7 @@ const Dashboard = () => {
                             <p className="text-slate-200 mt-3 ">Quizzes</p>
                         </Link>
 
-                        <a href="" className="dashboard-item-card">
+                        <Link to="/admin/assignmentMarks" className="dashboard-item-card">
                             <svg viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
                                 className="w-8 h-8 text-green-500">
                                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -45,7 +45,7 @@ const Dashboard = () => {
                             </svg>
 
                             <p className="text-slate-200 mt-3 ">Assignment Mark</p>
-                        </a>
+                        </Link>
 
                     </div>
                 </div>

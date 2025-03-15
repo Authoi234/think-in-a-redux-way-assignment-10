@@ -23,6 +23,7 @@ import AdminQuizzes from './pages/adminDashboard/AdminQuizzes';
 import UpdateQuizzes from './pages/adminDashboard/UpdateQuizzes';
 import Assignments from './pages/adminDashboard/Assignments';
 import UpdateAssignment from './pages/adminDashboard/UpdateAssignment';
+import AssignemntMarks from './pages/adminDashboard/AssignemntMarks';
 
 function App() {
   const router = createBrowserRouter([
@@ -99,6 +100,10 @@ function App() {
         {
           path: "/admin/editAssignment/:assignmentId",
           element: <AdminRoute><UpdateAssignment></UpdateAssignment></AdminRoute>
+        },
+        {
+          path: "/admin/assignmentMarks",
+          element: <AdminRoute><AssignemntMarks></AssignemntMarks></AdminRoute>
         },
       ]
     },

@@ -78,21 +78,21 @@ export const assignmentApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
-            async onQueryStarted(arg, {queryFulfilled, dispatch}) {
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
-                    const {data} = await queryFulfilled;
+                    const { data } = await queryFulfilled;
                     dispatch(
                         apiSlice.util.updateQueryData(
                             "getAssignments",
                             undefined,
                             (draft) => {
-                                if(!draft) return;
+                                if (!draft) return;
                                 draft.push(data)
                             }
                         )
                     )
                 } catch (err) {
-                    
+
                 }
             },
             invalidatesTags: [
@@ -136,7 +136,38 @@ export const assignmentApi = apiSlice.injectEndpoints({
             query: (studentId) => `/assignmentMark?student_id=${studentId}`,
             keepUnusedDataFor: 1500,
         }),
+        editAssignmentMark: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/assignmentMark/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const { data: updatedAssignmentMark } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData(
+                            "GetAssignmentsMarks",
+                            undefined,
+                            (draft) => {
+                                const draftAssignmentMark = draft?.find(
+                                    (item) => Number(item.id) === Number(updatedAssignmentMark.id)
+                                );
+                                if (draftAssignmentMark) {
+                                    Object.assign(draftAssignmentMark, updatedAssignmentMark);
+                                }
+                            }
+                        )
+                    );
+                } catch (err) {
+
+                }
+            },
+            invalidatesTags: (result, error, arg) => [
+                "AssignmentsMarks"
+            ],
+        })
     }),
 });
 
-export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery, useDeleteAssignmentMutation, useEditAssignmentMutation, useAddAssignmentMutation } = assignmentApi;
+export const { useGetAssignmentsQuery, useGetAssignmentQuery, useGetAssignmentMarkQuery, useGetAssignmentsMarksQuery, useAddAssignmentMarkMutation, useGetTotalAssignmentMarkQuery, useDeleteAssignmentMutation, useEditAssignmentMutation, useAddAssignmentMutation, useEditAssignmentMarkMutation } = assignmentApi;
